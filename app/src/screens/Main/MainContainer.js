@@ -7,23 +7,23 @@ class MainContainer extends Component {
         super(props);
         this.state = {
             modalVisible: false,
+            name: '',
+            contact: ''
         };
     }
     async componentDidMount() {
-        const { userName, imageURL, } = this.state
-        const user = await firebase.auth().currentUser;
-        alert('user at MainContainer' + JSON.stringify(user))
-
-
+        this.getCurrentUser();
     }
+
     getCurrentUser = async () => {
         const user = await firebase.auth().currentUser;
-        alert('user at MainContainer' + user.phoneNumber);
-        const ref = await firebase.firestore().doc(`users/${user.uid}`)
-
+        const ref = await firebase.firestore().doc(`users/${user.uid}`);
         ref.get().then((doc) => {
             if (doc.exists) {
-                console.log('data coming from collection', doc);
+                this.setState({
+                    name: doc._data.name,
+                    contact: doc._data.contact
+                })
             } else {
                 console.log("No such document!");
             }
@@ -34,17 +34,40 @@ class MainContainer extends Component {
         firebase.auth().signOut();
         this.props.navigation.navigate('Auth');
     }
+
+
     toggleDrawer = () => {
         this.props.navigation.toggleDrawer();
     }
+    openModal = () => {
+        this.setState({
+            modalVisible: true
+        })
+    }
+    toggleModal = () => {
+        this.setState({
+            modalVisible: false
+        })
+    }
     render() {
+        const { name, contact, modalVisible } = this.state
+        const userData = [{
+            user_name: name,
+            user_contact: contact
+        }]
         return (
             <MainView
                 signOut={this.signOut}
                 toggleDrawer={this.toggleDrawer}
-                modalVisible={this.state.modalVisible}
+                modalVisible={modalVisible}
                 user={this.user}
                 getCurrentUser={this.getCurrentUser}
+                toggleModal={this.toggleModal}
+                name={name}
+                contact={contact}
+                openModal={this.openModal}
+                userData={userData}
+
             />
         );
     }
