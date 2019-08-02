@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "857104044066",
+    "firebase_url": "https://taskmanagement-c8133.firebaseio.com",
+    "project_id": "taskmanagement-c8133",
+    "storage_bucket": "taskmanagement-c8133.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:857104044066:android:713273c053f5d823",
+        "android_client_info": {
+          "package_name": "com.shadmantaskmanagement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "857104044066-9iqh9tjhdhbh7v6kd8ojide5eqlhgtrh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6ntD7YzFE5RB6mGtsJ8V2gm2CveN95vI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "857104044066-9iqh9tjhdhbh7v6kd8ojide5eqlhgtrh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
