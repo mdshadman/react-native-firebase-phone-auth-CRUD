@@ -54,7 +54,7 @@ class SideBar extends React.Component {
 
   logout = async () => {
     try {
-      await this.firebase.auth.signOut();
+      await firebase.auth().signOut();
       this.props.navigation.navigate('Auth');
     } catch (e) {
       console.log(e, 'error in logout');
@@ -123,18 +123,18 @@ class SideBar extends React.Component {
         </List>
         <Content>
           {this.getMenuItem()}
-          <ListItem icon button onPress={this.logout}>
+          {/* <ListItem icon button onPress={this.logout}>
             <Left>
               <Icon active name='logout' type='MaterialCommunityIcons' />
             </Left>
             <Body>
               <Text>Logout</Text>
             </Body>
-          </ListItem>
+          </ListItem> */}
         </Content>
         <Footer>
           <FooterTab>
-            <Button vertical>
+            <Button vertical onPress={this.logout}>
               <Icon name="log-out" />
               <Text>Logout</Text>
             </Button>

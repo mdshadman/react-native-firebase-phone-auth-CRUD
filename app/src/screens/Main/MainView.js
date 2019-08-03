@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, Text, Button, Left, Right, Grid, Row, Col, CardItem, Thumbnail } from 'native-base';
+import { Container, Content, Text, Button, Left, Right, Grid, Row, Col, CardItem, Thumbnail, Card, Body, Icon } from 'native-base';
 import { Modal, TouchableHighlight, View, Alert } from 'react-native';
 import AppHeader from '../../../AppHeader';
 import ModalContainer from '../../../Components/ModalComponent/Modal';
@@ -7,7 +7,7 @@ import { Switch } from 'react-native';
 
 
 const MainView = (props) => {
-    const { openModal, toggleDrawer, modalVisible, getCurrentUser, contact, name, toggleModal, userData } = props
+    const { openModal, toggleDrawer, modalVisible, deleteTask, updateData, name, toggleModal, userData, goToUpdate } = props
     return (
         <Container>
             <AppHeader toggleMenu={toggleDrawer} />
@@ -33,15 +33,66 @@ const MainView = (props) => {
                     {userData.map((data, index) => {
                         return (
                             <Row style={{ backgroundColor: 'red', marginTop: 16 }} key={index}>
-                                <Col style={{ backgroundColor: 'red', justifyContent: 'center', alignItems: 'center' }}><Text>{data.Title}</Text></Col>
-                                <Col style={{ backgroundColor: 'green', justifyContent: 'center', alignItems: 'center' }}><Switch value={data.Status} /></Col>
-                                <Col style={{ backgroundColor: 'orange', justifyContent: 'center', alignItems: 'center' }}><Thumbnail square source={{ uri: data.Image }} />
+                                <Col>
+                                    <Card>
+                                        <CardItem>
+                                            <Left>
+                                                <Body>
+                                                    <Text>Title</Text>
+                                                </Body>
+                                            </Left>
+
+                                            <Right>
+                                                <Text>{data.Title}</Text>
+                                            </Right>
+                                        </CardItem>
+                                        <CardItem>
+                                            <Left>
+                                                <Body>
+                                                    <Text>Task Status</Text>
+                                                </Body>
+                                            </Left>
+
+                                            <Right>
+                                                <Switch value={data.Status} />
+                                            </Right>
+                                        </CardItem>
+                                        <CardItem>
+                                            <Left>
+                                                <Text>Your Image</Text>
+                                            </Left>
+
+                                            <Body style={{ justifyContent: 'center' }}>
+                                                <Text numberOfLines={1}>{data.Image}</Text>
+                                            </Body>
+                                            <Right>
+                                                <Thumbnail square source={{ uri: data.Image }} />
+                                            </Right>
+                                        </CardItem>
+
+                                        <Button iconLeft success style={{ justifyContent: 'center', margin: 10 }} onPress={() => goToUpdate(data)}>
+                                            <Icon name='create' color='red' />
+                                            <Text>Update</Text>
+                                        </Button>
+
+                                        <Button iconLeft danger style={{ justifyContent: 'center', margin: 10 }} onPress={() => deleteTask(data.id)}>
+                                            <Icon name='trash' color='red' />
+                                            <Text>Delete</Text>
+                                        </Button>
+                                    </Card>
                                 </Col>
                             </Row>
                         )
                     })
                     }
+                    {userData.length <= 0 &&
+                        <Card>
+                            <CardItem>
+                                <Text style={{ textAlign: 'center' }}>You don't have any tasks yet, Add some tasks </Text>
+                            </CardItem>
+                        </Card>
 
+                    }
                 </Grid>
 
 
@@ -52,7 +103,7 @@ const MainView = (props) => {
                     onRequestClose={() => {
                         Alert.alert('Modal has been closed.');
                     }}>
-                    <ModalContainer onModalClose={toggleModal} />
+                    <ModalContainer onModalClose={toggleModal} sendUpdatedData={updateData} />
                 </Modal>
 
 
