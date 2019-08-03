@@ -16,6 +16,7 @@ import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
+import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
       packages.add( new RNFirebaseAuthPackage());
       packages.add( new RNFirebaseFirestorePackage());
       packages.add( new RNFirebaseDatabasePackage());
+      packages.add( new RNFirebaseStoragePackage());
       // packages.add( new RNFirebasePackage());
       return packages;
     }

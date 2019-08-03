@@ -14,16 +14,15 @@ const LoginView = (props) => {
         renderMessage,
         phoneNumber,
         valueChange,
-
+        codeInput
     } = props;
-    const successImageUri = 'https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60';
+    const successImageUri = require('../../assets/1.jpg');
 
     return (
         <Container>
-            <ImageBackground source={{ uri: successImageUri }}
+            <ImageBackground source={successImageUri}
                 style={styles.fullwidthHeight}
-                resizeMode='cover'
-            >
+                resizeMode='cover'>
 
                 <View>
                     {!user && !confirmResult &&

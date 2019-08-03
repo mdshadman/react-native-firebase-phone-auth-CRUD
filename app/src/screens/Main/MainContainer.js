@@ -8,7 +8,8 @@ class MainContainer extends Component {
         this.state = {
             modalVisible: false,
             name: '',
-            contact: ''
+            contact: '',
+            taskList: []
         };
     }
     async componentDidMount() {
@@ -17,16 +18,17 @@ class MainContainer extends Component {
 
     getCurrentUser = async () => {
         const user = await firebase.auth().currentUser;
-        const ref = await firebase.firestore().doc(`users/${user.uid}`);
-        ref.get().then((doc) => {
-            if (doc.exists) {
-                this.setState({
-                    name: doc._data.name,
-                    contact: doc._data.contact
-                })
-            } else {
-                console.log("No such document!");
-            }
+        const ref = await firebase.firestore().collection('tasks');
+        ref.onSnapshot(this.onCollectionUpdate)
+    }
+    onCollectionUpdate = (querySnapshot) => {
+        const taskList = [];
+        querySnapshot.forEach((doc) => {
+            taskList.push(doc.data());
+        });
+        console.log('taskList', taskList)
+        this.setState({
+            taskList
         });
     }
 
@@ -46,14 +48,15 @@ class MainContainer extends Component {
     }
     toggleModal = () => {
         this.setState({
-            modalVisible: false
-        })
+            modalVisible: false,
+        }, () => this.getCurrentUser())
     }
     render() {
-        const { name, contact, modalVisible } = this.state
+        const { name, contact, modalVisible, imageUrl } = this.state
         const userData = [{
             user_name: name,
-            user_contact: contact
+            user_contact: contact,
+            user_Image: imageUrl
         }]
         return (
             <MainView
@@ -66,7 +69,7 @@ class MainContainer extends Component {
                 name={name}
                 contact={contact}
                 openModal={this.openModal}
-                userData={userData}
+                userData={this.state.taskList}
 
             />
         );

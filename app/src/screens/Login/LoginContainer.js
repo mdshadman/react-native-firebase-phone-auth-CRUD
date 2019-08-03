@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import LoginView from './LoginView.js';
 import firebase from 'react-native-firebase';
-import { Text, Button, Spinner, Card } from 'native-base';
+import { Text, Button, Card } from 'native-base';
 import { View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { withNavigation } from 'react-navigation';
@@ -48,11 +48,12 @@ class LoginContainer extends Component {
         if (this.unsubscribe) this.unsubscribe();
     }
 
-    signIn = () => {
+    signIn = async () => {
         const { phoneNumber } = this.state;
         this.setState({ message: 'Sending code ...' });
-        firebase.auth().signInWithPhoneNumber(phoneNumber)
+        await firebase.auth().signInWithPhoneNumber(phoneNumber)
             .then(confirmResult => {
+                alert('confirmResult' + confirmResult)
                 this.setState({ confirmResult, message: 'Code has been sent!' });
             })
             .catch(error => this.setState({ message: `Sign In With Phone Number Error: ${error.message}` }));
@@ -165,8 +166,8 @@ class LoginContainer extends Component {
 
         if (this.state.loading) {
             return <SpinnerComponent size={'large'} />
-
         }
+
         setTimeout(() => {
             this.setState({ loading: false })
             this.goToMainPage()
